@@ -134,7 +134,7 @@ void runDaemon(int * status) {
 }
 
 int main() {
-    const char workingDir[] = "/home/zydhanlinnar11/soal-shift-sisop-modul-2-F06-2021";
+    const char workingDir[] = "/home/zydhanlinnar11/soal-shift-sisop-modul-2-F06-2021/soal1";
     pid_t child_id, sid;
     int status;
     
