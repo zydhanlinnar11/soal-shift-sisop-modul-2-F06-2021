@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <dirent.h>
+#include <time.h>
+#include <sys/stat.h>
 
 #define BANYAK_FOLDER 3
 
@@ -34,7 +36,7 @@ void unzipFiles(pid_t child_id, int * status, char *filename[]) {
     }
 }
 
-void removeFiles(pid_t child_id, int * status, char * foldername[]) {
+void removeExtractedFolders(pid_t child_id, int * status, char * foldername[]) {
     if((child_id = fork()) == 0) {
         char *argv[] = {"rm", "-rf", foldername[0], foldername[1], foldername[2], NULL};
         execv("/bin/rm", argv);
@@ -65,7 +67,6 @@ void browseFolderThenMoveFiles(int * status, char foldername[], char stevany_fol
             moveFile(drent, status, foldername, stevany_foldername);
 
         (void) closedir (dir);
-        exit(EXIT_SUCCESS);
     } else perror ("Couldn't open the directory");
 }
 
@@ -77,28 +78,75 @@ void makeDirectories(pid_t child_id, int * status, char *foldername[], char *ste
     while(wait(status) > 0);
 }
 
-void stevany() {
+void zipStevanyFolders(pid_t child_id, int * status, char *stevany_foldername[], char zip_name[]) {
+    if((child_id = fork()) == 0) {
+        char *argv[] = {"zip", "-rmvq", zip_name, stevany_foldername[0], stevany_foldername[1], stevany_foldername[2], NULL};
+        execv("/bin/zip", argv);
+    }
+    while(wait(status) > 0);
+}
+
+void stevany(char *stevany_foldername[]) {
     pid_t child_id;
     int status;
 
-    char *stevany_foldername[] = {"Fylm", "Musyik", "Pyoto"};
     char *filename[] = {"FILM.zip", "MUSIK.zip", "FOTO.zip"};
     char *foldername[] = {"FILM", "MUSIK", "FOTO"};
 
     makeDirectories(child_id, &status, foldername, stevany_foldername);
-    // downloadFiles(child_id, &status, filename);
+    downloadFiles(child_id, &status, filename);
     unzipFiles(child_id, &status, filename);    
 
-    for(int i=0; i<BANYAK_FOLDER; i++) {
-        if((child_id = fork()) == 0)
-            browseFolderThenMoveFiles(&status, foldername[i], stevany_foldername[i]);
-        while(wait(&status) > 0);
-    }
+    for(int i=0; i<BANYAK_FOLDER; i++)
+        browseFolderThenMoveFiles(&status, foldername[i], stevany_foldername[i]);
 
-    removeFiles(child_id, &status, foldername);
+    removeExtractedFolders(child_id, &status, foldername);
+}
+
+int isNowStevanyBirthday(int day, int month) {
+    const int stev_b_day = 9;
+    const int stev_b_month = 3;
+
+    return stev_b_day == day && stev_b_month == month;
+}
+
+void runDaemon(pid_t child_id, int * status) {
+    const unsigned SLEEP_INTERVAL_SECONDS = 1;
+    char *stevany_foldername[] = {"Fylm", "Musyik", "Pyoto"};
+    const int stev_b_hour = 22;
+    const int stev_b_min = stev_b_hour;
+    while (1) {
+        time_t now = time(NULL);
+        struct tm * nowLocal = localtime(&now);
+
+        if(isNowStevanyBirthday(nowLocal->tm_mday, nowLocal->tm_mon) && stev_b_hour == nowLocal->tm_hour && stev_b_min == nowLocal->tm_min)
+            zipStevanyFolders(child_id, status, stevany_foldername, "Lopyu_Stevany.zip");
+        else if(isNowStevanyBirthday(nowLocal->tm_mday, nowLocal->tm_mon) && stev_b_hour - 6 == nowLocal->tm_hour && stev_b_min == nowLocal->tm_min)
+            stevany(stevany_foldername);
+        while(wait(status) > 0);
+
+        sleep(SLEEP_INTERVAL_SECONDS);
+    }
 }
 
 int main() {
-    stevany();
+    const char workingDir[] = "/home/zydhanlinnar11/soal-shift-sisop-modul-2-F06-2021";
+    pid_t child_id;
+    int status;
+    
+    if((child_id = fork()) != 0)
+        exit(EXIT_SUCCESS);
+
+    umask(0);
+
+    child_id = setsid();
+    if (child_id < 0 || chdir(workingDir))
+        exit(EXIT_FAILURE);
+
+    close(STDIN_FILENO);
+    close(STDOUT_FILENO);
+    close(STDERR_FILENO);
+
+    runDaemon(child_id, &status);
     return 0;
 }
