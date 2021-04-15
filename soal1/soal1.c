@@ -10,30 +10,16 @@
 
 #define BANYAK_FOLDER 3
 
-void downloadFiles(pid_t child_id, int *status, char *filename[]) {
-    char *download_links[] = {"https://drive.google.com/uc?id=1ktjGgDkL0nNpY-vT7rT7O6ZI47Ke9xcp&export=download",
-        "https://drive.google.com/uc?id=1ZG8nRBRPquhYXq_sISdsVcXx5VdEgi-J&export=download",
-        "https://drive.google.com/uc?id=1FsrAzb9B5ixooGUs0dGiBr-rC7TS9wTD&export=download"};
-
-    for(int i=0; i<BANYAK_FOLDER; i++) {
-        if((child_id = fork()) == 0) {
-            char *argv[] = {"wget", "--no-check-certificate",
-                download_links[i],
-                "-O", filename[i], "-q", NULL};
-            execv("/bin/wget", argv);
-        }
-        while(wait(status) > 0);
-    }
+void downloadFile(char download_link[], char filename[]) {
+    char *argv[] = {"wget", "--no-check-certificate",
+                download_link,
+                "-O", filename, "-q", NULL};
+    execv("/bin/wget", argv);
 }
 
-void unzipFiles(pid_t child_id, int * status, char *filename[]) {
-    for(int i=0; i<BANYAK_FOLDER; i++) {
-        if((child_id = fork()) == 0) {
-            char *argv[] = {"unzip", "-qq", filename[i], NULL};
-            execv("/bin/unzip", argv);
-        }
-        while(wait(status) > 0);
-    }
+void unzipFile(char filename[]) {
+    char *argv[] = {"unzip", "-qq", filename, NULL};
+    execv("/bin/unzip", argv);
 }
 
 void removeExtractedFolders(pid_t child_id, int * status, char * foldername[]) {
@@ -86,6 +72,22 @@ void zipStevanyFolders(pid_t child_id, int * status, char *stevany_foldername[],
     while(wait(status) > 0);
 }
 
+void downloadAndUnzipFiles(pid_t child_id, int * status, char *filename[]) {
+    char *download_links[] = {"https://drive.google.com/uc?id=1ktjGgDkL0nNpY-vT7rT7O6ZI47Ke9xcp&export=download",
+        "https://drive.google.com/uc?id=1ZG8nRBRPquhYXq_sISdsVcXx5VdEgi-J&export=download",
+        "https://drive.google.com/uc?id=1FsrAzb9B5ixooGUs0dGiBr-rC7TS9wTD&export=download"};
+    
+    for(int i=0; i<BANYAK_FOLDER; i++) {
+        if((child_id = fork()) == 0)
+            downloadFile(download_links[i], filename[i]);
+        while(wait(status) > 0);
+
+        if((child_id = fork()) == 0)
+            unzipFile(filename[i]);
+        while(wait(status) > 0);
+    }
+}
+
 void stevany(pid_t child_id, char *stevany_foldername[]) {
     int status;
 
@@ -93,8 +95,7 @@ void stevany(pid_t child_id, char *stevany_foldername[]) {
     char *foldername[] = {"FILM", "MUSIK", "FOTO"};
 
     makeDirectories(child_id, &status, foldername, stevany_foldername);
-    downloadFiles(child_id, &status, filename);
-    unzipFiles(child_id, &status, filename);    
+    downloadAndUnzipFiles(child_id, &status, filename);
 
     for(int i=0; i<BANYAK_FOLDER; i++)
         browseFolderThenMoveFiles(&status, foldername[i], stevany_foldername[i]);
