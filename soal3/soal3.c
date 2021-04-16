@@ -157,7 +157,7 @@ int main(int argc, char **argv){
             char namazip[112];
             sprintf(namazip,"%s.zip",namafoldertemp);
             if(fork()==0){
-                char *zipargv[] = {"zip", "-rm", namazip, namafoldertemp, NULL};
+                char *zipargv[] = {"zip", "-rmq", namazip, namafoldertemp, NULL};
                 execv("/usr/bin/zip", zipargv);
             }
             while((wait(&s2))>0);
