@@ -457,3 +457,7 @@ int main() {
 Berupa video yang mengarah ke YouTube, silahkan diklik.
 
 [![demo-modul-2-sistem-operasi](https://img.youtube.com/vi/w9gAYkTxCq4/0.jpg)](https://youtu.be/w9gAYkTxCq4 "Demo Modul 2 Sistem Operasi")
+
+### **Kendala Pengerjaan No. 1**
+
+- Saat saya melakukan percobaan dengan mengganti tanggal, saya lupa menggantinya kembali ke tanggal saat ini sehingga beberapa commit pada repository ini tertulis dicommit pada 9 April 2021.
