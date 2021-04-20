@@ -489,10 +489,10 @@ umur  : 2 tahun
 
 Loba sangat mengapresiasi bantuanmu, minggu depan ia akan mentraktir makan malam!
 
-Note:
-Setiap data peliharaan disimpan sebagai nama foto dengan format [jenis peliharaan]:[nama peliharaan]:[umur peliharaan dalam tahun]. Jika terdapat lebih dari satu peliharaan, data dipisahkan menggunakan underscore(_).
-Tidak boleh menggunakan fungsi system(), mkdir(), dan rename().
-Menggunakan fork dan exec.
+**Note:**
+- Setiap data peliharaan disimpan sebagai nama foto dengan format [jenis peliharaan]:[nama peliharaan]:[umur peliharaan dalam tahun]. Jika terdapat lebih dari satu peliharaan, data dipisahkan menggunakan underscore(_).
+- Tidak boleh menggunakan fungsi system(), mkdir(), dan rename().
+- Menggunakan fork dan exec.
 
 
 ### **Soal No. 3**
