@@ -494,6 +494,82 @@ Loba sangat mengapresiasi bantuanmu, minggu depan ia akan mentraktir makan malam
 - Tidak boleh menggunakan fungsi system(), mkdir(), dan rename().
 - Menggunakan fork dan exec.
 
+### **Jawaban No. 2 Fungsi `my_system()`**
+
+```c
+void my_system(char command[], char *arg[]){
+	int status;
+	pid_t pid;
+	pid = fork();
+	if(pid == 0){
+		execv(command, arg);
+	}
+	else{
+		((wait(&status))>0);
+	}
+}
+```
+
+### **Penjelasan No. 2 Fungsi `my_system()`**
+
+Fungsi ini bertujuan untuk meniru fungsi system() dengan melakukan fork agar childnya melakukan execv. Fungsi ini menerima command yang berisi seperti /bin/mkdir dan argumen yang diinginkan.
+
+### **Jawaban No. 2a (mkdir dan unzip)**
+
+```c
+char locto[] = "/home/zoniacer/modul2/petshop";
+int main () {
+  pid_t child_id;
+  int status;
+  char *argv1[4] = {"mkdir","-p", locto, NULL};
+  char *argv2[5] = {"unzip", "pets.zip", "-d", locto, NULL};
+  
+  my_system("/bin/mkdir",argv1);
+  my_system("/bin/unzip",argv2);
+  listFilesRecursively(locto);
+  
+  
+  return 0;
+
+}
+```
+
+### **Penjelasan 2a (mkdir dan unzip)**
+
+Membuat argumen1 untuk membuat direktori dengan -p agar saat membuat direktori jika sudah ada tidak akan error dan locto, sebagai lokasi direktori, kemudian dilakukan unzip -d agar dapat memasuki ke direktori yang diinginkan dan locto sebagai lokasi direktori, kemudian digunakan fungsi my_system().
+
+### **Jawaban No. 2a (menghapus file tidak diperlukan)**
+
+```c
+void listFilesRecursively(char *basePath)
+{
+    char path[1000];
+    struct dirent *dp;
+    DIR *dir = opendir(basePath);
+    const char *deli1 = ";";
+    const char *deli2 = "_";
+    int i,j;
+    FILE *fptr;
+    if (!dir)
+        return;
+    
+    while ((dp = readdir(dir)) != NULL)
+    {
+        if (strcmp(dp->d_name, ".") != 0 && strcmp(dp->d_name, "..") != 0)
+        {
+            if(dp->d_type == DT_DIR){
+          	char combine[100] = "/home/zoniacer/modul2/petshop/";
+          	strcat(combine, dp->d_name);
+          	char *argv3[] = {"rm", "-rf", combine, NULL};
+          	my_system("/bin/rm", argv3);
+          	}
+            ...
+```
+
+### **Penjelasan 2a (menghapus file tidak diperlukan)**
+
+Untuk menghapus dibuat fungsi listFilesRecursively() dari modul 2 tetapi dengan modifikasi. Saat dilihat satu - satu file dicek apabila file tersebut file direktori atau `dp->d_type == DT_DIR` jika iya maka dengan path direktori yang disimpan dalam `combine` digunakan untuk menghapus file tersebut dengan rm untuk menghapus file, `-r` dihapus secara rekursi dan f secara paksa tanpa konfirmasi.
+
 
 ### **Soal No. 3**
 Ranora adalah mahasiswa Teknik Informatika yang saat ini sedang menjalani magang di perusahan ternama yang bernama “FakeKos Corp.”, perusahaan yang bergerak dibidang keamanan data. Karena Ranora masih magang, maka beban tugasnya tidak sebesar beban tugas pekerja tetap perusahaan. Di hari pertama Ranora bekerja, pembimbing magang Ranora memberi tugas pertamanya untuk membuat sebuah program.
