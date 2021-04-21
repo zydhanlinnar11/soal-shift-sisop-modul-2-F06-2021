@@ -514,7 +514,7 @@ void my_system(char command[], char *arg[]){
 
 Fungsi ini bertujuan untuk meniru fungsi system() dengan melakukan fork agar childnya melakukan execv. Fungsi ini menerima command yang berisi seperti /bin/mkdir dan argumen yang diinginkan.
 
-### **Jawaban No. 2a (mkdir dan unzip)**
+### **Jawaban No. 2 (mkdir dan unzip)**
 
 ```c
 char locto[] = "/home/zoniacer/modul2/petshop";
@@ -534,11 +534,11 @@ int main () {
 }
 ```
 
-### **Penjelasan 2a (mkdir dan unzip)**
+### **Penjelasan No. 2 (mkdir dan unzip)**
 
 Membuat argumen1 untuk membuat direktori dengan -p agar saat membuat direktori jika sudah ada tidak akan error dan locto, sebagai lokasi direktori, kemudian dilakukan unzip -d agar dapat memasuki ke direktori yang diinginkan dan locto sebagai lokasi direktori, kemudian digunakan fungsi my_system().
 
-### **Jawaban No. 2a (menghapus file tidak diperlukan)**
+### **Jawaban No. 2 (menghapus file tidak diperlukan)**
 
 ```c
 void listFilesRecursively(char *basePath)
@@ -566,11 +566,155 @@ void listFilesRecursively(char *basePath)
             ...
 ```
 
-### **Penjelasan 2a (menghapus file tidak diperlukan)**
+### **Penjelasan No. 2 (menghapus file tidak diperlukan)**
 
 Untuk menghapus dibuat fungsi listFilesRecursively() dari modul 2 tetapi dengan modifikasi. Saat dilihat satu - satu file dicek apabila file tersebut file direktori atau `dp->d_type == DT_DIR` jika iya maka dengan path direktori yang disimpan dalam `combine` digunakan untuk menghapus file tersebut dengan rm untuk menghapus file, `-r` dihapus secara rekursi dan f secara paksa tanpa konfirmasi.
 
+### **Jawaban No. 2 (Membuat file direktori jenis hewan)**
 
+Kodingan lanjutan dari sebelumnya
+```c
+...
+	else{
+          	char token[100]= "";
+          	strcpy(token, dp->d_name);
+          	char newfile[100] = "/home/zoniacer/modul2/petshop/";
+          	strtok(token, deli1);
+          	strcat(newfile, token);
+          	char *argv4[] = {"mkdir","-p", newfile, NULL};
+          	my_system("/bin/mkdir", argv4);
+		...
+```
+
+### **Penjelasan No. 2 (Membuat file direktori jenis hewan)**
+
+Saat dilakukan pengecekkan setiap file jika file tersebut bukan direktori maka di proses dengan variable `token` untuk mengambil kata sebelum bertemu `;` yaitu jenis hewan dengan menggunakan strtok dan variable `newfile` sebagai path untuk direktori baru. Kemudian dengan `argv4[]` dan `my_system` dibuat direktori. Ini hanya untuk file kata depan, tidak dilakukan untuk dibuat direktori dengan file yang memiliki dua jenis hewan, setelah `_` masih belom dibuat direktori.
+
+### **Jawaban No. 2 (Memasuki gambar pada direktori jenis hewan(gambar tanpa _))**
+
+Kodingan lanjutan dari sebelumnya
+```c
+...
+		char mvfile[100] = "/home/zoniacer/modul2/petshop/";
+        	strcat(mvfile, dp->d_name);
+        	char filename[50] = "";
+        	strcpy(filename, dp->d_name);
+        	char s1[1]=";";
+          	char s2[1]="_";
+          	char s3[2]=".j";
+          	if(!(strstr(dp->d_name, deli2))){
+        	  	char *argv5[] = {"mv", "-f", mvfile, newfile, NULL};
+        	  	char name[] = "";
+        	  	my_system("/bin/mv", argv5);
+			...
+```
+
+### **Penjelasan No. 2 (Memasuki gambar pada direktori jenis hewan(gambar tanpa _))**
+
+Variable `mvfile` digunakan sebagai path sebelum dipindah dan `newfile` path jenis hewan. Kemudian disini dicek apabila file tersebut memiliki `_` jika tidak maka langsung dimasukin ke dalam direktori baru dengan `argv5[]` dan `my_system`.
+
+### **Jawaban No. 2 (Membuat file keterangan.txt dan deskripsi(gambar tanpa _))**
+
+Kodingan lanjutan dari sebelumnya
+```c
+...
+			char name[] = "";
+        	  	my_system("/bin/mv", argv5);
+        	  	strcpy(keterangan,newfile);
+        	  	strcat(keterangan,"/keterangan.txt");
+        	  	fptr = fopen(keterangan,"a");
+        	  	int count =2;
+        	  	for(i=0;i<50;i++){
+        	  		if(count==2){
+        	  			if(filename[i]==s1[0]){
+        	  				count--;
+        	  				fprintf(fptr,"nama : ");
+        	  			}
+        	  			continue;
+        	  		}
+        	  		if(count==1){
+        	  			if(filename[i]==s1[0]){
+        	  				count--;
+        	  				fprintf(fptr,"\numur : ");
+        	  				continue;
+        	  			}
+        	  			fprintf(fptr,"%c", filename[i]);
+        	  			strncat(name,&filename[i],1);
+        	  			continue;
+        	  		}
+        	  		if(filename[i]==s3[0] && filename[i+1]==s3[1]){
+        	  			fprintf(fptr, " tahun\n\n");
+        	  			break;	
+        	  		}
+        	  		fprintf(fptr, "%c", filename[i]);
+        	  	}
+			...
+```
+
+### **Penjelasan No. 2 (Membuat file keterangan.txt dan deskripsi(gambar tanpa _))**
+
+Dibuat file keterangan.txt dengan variable `keterangan` sebagai path untuk membuat file dengan fopen menggunakan `"a"` untuk append. Untuk menulis nama dilakukan looping dengan bantuan var `count` pertama dilakukan loopin secara berlanjut sampai bertemu `;` pertama kemudian count dikurangi dan dimasukin string `nama : `. Kemudian dilanjutkan dengan char per kata dimasukin ke dalam file keterangan sampai bertemu `;` berikutnya sekalian menyimpan nama hewan dalam variable `name` per char, count dikurangi. Setelah itu bertemu dengan `;` dimasukin string `\numur : ` dan memasuki umur hewan sampai bertemu `.j`, sesudah betemu `.j` dimasukin string ` tahun\n\n`.
+
+### **Jawaban No. 2 (Mengubah nama gambar(gambar tanpa _))**
+
+Kodingan lanjutan dari sebelumnya
+```c
+			...
+			char rename[100] = "";
+        	  	strcpy(rename,newfile);
+        	  	strcat(rename,"/");
+        	  	strcat(rename,name);
+        	  	strcat(rename,".jpg");
+        	  	strcat(newfile,"/");
+        	  	strcat(newfile, dp->d_name);
+        	  	char *argv10[] = {"mv",newfile,rename,NULL};
+        	  	my_system("/bin/mv", argv10);
+		}
+		...
+```
+
+### **Penjelasan No. 2 (Mengubah nama gambar(gambar tanpa _))**
+
+Dibuat path untuk nama barunya dengan variable `rename` dengan cpy variabel `newfile`, kemudian cat char `/`, cat variabel `name`, dan cat string `.jpg`, kemudian melakukan cat pada variable `newfile` agar dapat path nama gambar sebelum diubah. Dengan `argv10` dan `my_system` diubah nama file tersebut.
+
+### **Jawaban No. 2 (Memasuki gambar pada direktori jenis hewan(gambar dengan _))**
+
+Kodingan lanjutan dari sebelumnya
+```c
+		...
+		else{
+          		char cpyfile[100] = "";
+          		char temp[10] ="";
+          		int flag=1;
+          		
+          		int count2 =2;
+          		for(i = 0; i<50;i++){
+          		if(count2==2){
+          			if(filename[i]==s1[0]){
+          				count2--;
+          				strcpy(cpyfile,locto);
+          				strcat(cpyfile,"/");
+          				strcat(cpyfile,temp);
+          				char *argv6[] = {"mkdir","-p", cpyfile, NULL};
+          				my_system("/bin/mkdir", argv6);
+          				char *argv7[] = {"cp", mvfile, cpyfile, NULL};
+          				my_system("/bin/cp", argv7);
+          				char buatketerangan[50]="";
+          				strcpy(buatketerangan,cpyfile);
+          				strcat(buatketerangan,"/keterangan.txt");
+          				fptr = fopen(buatketerangan,"a");
+          				strcpy(temp,empty);
+          				continue;
+          			}
+				strncat(temp,&filename[i],1);
+          			continue;
+          		}
+				...
+```
+
+### **Penjelasan No. 2 (Memasuki gambar pada direktori jenis hewan(gambar dengan _))**
+
+Karena file dengan `_` memiliki 2 jenis hewan dan perlu masuk 2 direktori pertama yang dilakukan adalah copy gambar tersebut kedalam 2 direktori tersebut. 
 ### **Soal No. 3**
 Ranora adalah mahasiswa Teknik Informatika yang saat ini sedang menjalani magang di perusahan ternama yang bernama “FakeKos Corp.”, perusahaan yang bergerak dibidang keamanan data. Karena Ranora masih magang, maka beban tugasnya tidak sebesar beban tugas pekerja tetap perusahaan. Di hari pertama Ranora bekerja, pembimbing magang Ranora memberi tugas pertamanya untuk membuat sebuah program.
 
