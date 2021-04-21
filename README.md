@@ -881,6 +881,7 @@ Berikut merupakan tampilan saat program dijalankan
 ![Tampilan Runtime](https://user-images.githubusercontent.com/40484843/115485057-2bd6ab80-a27e-11eb-833b-07c3e075d651.PNG)
 
 Bisa dilihat program berjalan sesuai yang diharapkan dan mendownload gambar setiap jeda 5 detik.
+**Catatan** : untuk file `folderlog.txt` hanya digunakan untuk melihat jalannya program.
 
 ### **Kendala**
 Dalam pengerjaan soal nomor 3 ini ada beberapa kendala yang dialami, yaitu:
