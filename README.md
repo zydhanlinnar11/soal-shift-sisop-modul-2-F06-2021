@@ -983,6 +983,7 @@ int main () {
 
 ### **Output No. 2**
 Beberapa output
+
 ![image](https://user-images.githubusercontent.com/63639703/115649141-f3ec6880-a350-11eb-9ab4-025258f240f8.png)
 ![image](https://user-images.githubusercontent.com/63639703/115649167-02d31b00-a351-11eb-896f-1e20b848f401.png)
 
