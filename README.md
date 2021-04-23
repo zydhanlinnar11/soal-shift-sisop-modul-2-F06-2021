@@ -514,7 +514,7 @@ void my_system(char command[], char *arg[]){
 
 Fungsi ini bertujuan untuk meniru fungsi system() dengan melakukan fork agar childnya melakukan execv. Fungsi ini menerima command yang berisi seperti /bin/mkdir dan argumen yang diinginkan.
 
-### **Jawaban No. 2 (mkdir dan unzip)**
+### **Jawaban No. 2a (mkdir dan unzip)**
 
 ```c
 char locto[] = "/home/zoniacer/modul2/petshop";
@@ -534,11 +534,11 @@ int main () {
 }
 ```
 
-### **Penjelasan No. 2 (mkdir dan unzip)**
+### **Penjelasan No. 2a (mkdir dan unzip)**
 
 Membuat argumen1 untuk membuat direktori dengan -p agar saat membuat direktori jika sudah ada tidak akan error dan locto, sebagai lokasi direktori, kemudian dilakukan unzip -d agar dapat memasuki ke direktori yang diinginkan dan locto sebagai lokasi direktori, kemudian digunakan fungsi my_system().
 
-### **Jawaban No. 2 (menghapus file tidak diperlukan)**
+### **Jawaban No. 2a (menghapus file tidak diperlukan)**
 
 ```c
 void listFilesRecursively(char *basePath)
@@ -566,11 +566,11 @@ void listFilesRecursively(char *basePath)
             ...
 ```
 
-### **Penjelasan No. 2 (menghapus file tidak diperlukan)**
+### **Penjelasan No. 2a (menghapus file tidak diperlukan)**
 
 Untuk menghapus dibuat fungsi listFilesRecursively() dari modul 2 tetapi dengan modifikasi. Saat dilihat satu - satu file dicek apabila file tersebut file direktori atau `dp->d_type == DT_DIR` jika iya maka dengan path direktori yang disimpan dalam `combine` digunakan untuk menghapus file tersebut dengan rm untuk menghapus file, `-r` dihapus secara rekursi dan f secara paksa tanpa konfirmasi.
 
-### **Jawaban No. 2 (Membuat file direktori jenis hewan)**
+### **Jawaban No. 2b (Membuat file direktori jenis hewan)**
 
 Kodingan lanjutan dari sebelumnya
 ```c
@@ -586,11 +586,11 @@ Kodingan lanjutan dari sebelumnya
 		...
 ```
 
-### **Penjelasan No. 2 (Membuat file direktori jenis hewan)**
+### **Penjelasan No. 2b (Membuat file direktori jenis hewan)**
 
 Saat dilakukan pengecekkan setiap file jika file tersebut bukan direktori maka di proses dengan variable `token` untuk mengambil kata sebelum bertemu `;` yaitu jenis hewan dengan menggunakan strtok dan variable `newfile` sebagai path untuk direktori baru. Kemudian dengan `argv4[]` dan `my_system` dibuat direktori. Ini hanya untuk file kata depan, tidak dilakukan untuk dibuat direktori dengan file yang memiliki dua jenis hewan, setelah `_` masih belom dibuat direktori.
 
-### **Jawaban No. 2 (Memasuki gambar pada direktori jenis hewan(gambar tanpa _))**
+### **Jawaban No. 2c (Memasuki gambar pada direktori jenis hewan(gambar tanpa _))**
 
 Kodingan lanjutan dari sebelumnya
 ```c
@@ -609,11 +609,11 @@ Kodingan lanjutan dari sebelumnya
 			...
 ```
 
-### **Penjelasan No. 2 (Memasuki gambar pada direktori jenis hewan(gambar tanpa _))**
+### **Penjelasan No. 2c (Memasuki gambar pada direktori jenis hewan(gambar tanpa _))**
 
 Variable `mvfile` digunakan sebagai path sebelum dipindah dan `newfile` path jenis hewan. Kemudian disini dicek apabila file tersebut memiliki `_` jika tidak maka langsung dimasukin ke dalam direktori baru dengan `argv5[]` dan `my_system`.
 
-### **Jawaban No. 2 (Membuat file keterangan.txt dan deskripsi(gambar tanpa _))**
+### **Jawaban No. 2e (Membuat file keterangan.txt dan deskripsi(gambar tanpa _))**
 
 Kodingan lanjutan dari sebelumnya
 ```c
@@ -651,11 +651,11 @@ Kodingan lanjutan dari sebelumnya
 			...
 ```
 
-### **Penjelasan No. 2 (Membuat file keterangan.txt dan deskripsi(gambar tanpa _))**
+### **Penjelasan No. 2e (Membuat file keterangan.txt dan deskripsi(gambar tanpa _))**
 
 Dibuat file keterangan.txt dengan variable `keterangan` sebagai path untuk membuat file dengan fopen menggunakan `"a"` untuk append. Untuk menulis nama dilakukan looping dengan bantuan var `count` pertama dilakukan loopin secara berlanjut sampai bertemu `;` pertama kemudian count dikurangi dan dimasukin string `nama : `. Kemudian dilanjutkan dengan char per kata dimasukin ke dalam file keterangan sampai bertemu `;` berikutnya sekalian menyimpan nama hewan dalam variable `name` per char, count dikurangi. Setelah itu bertemu dengan `;` dimasukin string `\numur : ` dan memasuki umur hewan sampai bertemu `.j`, sesudah betemu `.j` dimasukin string ` tahun\n\n`.
 
-### **Jawaban No. 2 (Mengubah nama gambar(gambar tanpa _))**
+### **Jawaban No. 2c (Mengubah nama gambar(gambar tanpa _))**
 
 Kodingan lanjutan dari sebelumnya
 ```c
@@ -673,11 +673,11 @@ Kodingan lanjutan dari sebelumnya
 		...
 ```
 
-### **Penjelasan No. 2 (Mengubah nama gambar(gambar tanpa _))**
+### **Penjelasan No. 2c (Mengubah nama gambar(gambar tanpa _))**
 
 Dibuat path untuk nama barunya dengan variable `rename` dengan cpy variabel `newfile`, kemudian cat char `/`, cat variabel `name`, dan cat string `.jpg`, kemudian melakukan cat pada variable `newfile` agar dapat path nama gambar sebelum diubah. Dengan `argv10` dan `my_system` diubah nama file tersebut.
 
-### **Jawaban No. 2 (Memasuki gambar pada direktori jenis hewan(gambar dengan _))**
+### **Jawaban No. 2c,d (Membuat direktori, Memasuki gambar pada direktori jenis hewan dan Membuat file keterangan.txt(gambar dengan _))**
 
 Kodingan lanjutan dari sebelumnya
 ```c
@@ -712,11 +712,11 @@ Kodingan lanjutan dari sebelumnya
 				...
 ```
 
-### **Penjelasan No. 2 (Membuat direktori, Memasuki gambar pada direktori jenis hewan dan Membuat file keterangan.txt(gambar dengan _))**
+### **Penjelasan No. 2b,d,e (Membuat direktori, Memasuki gambar pada direktori jenis hewan dan Membuat file keterangan.txt(gambar dengan _))**
 
 Karena file dengan `_` memiliki 2 jenis hewan dan perlu masuk 2 direktori yang dilakukan adalah copy gambar tersebut kedalam 2 direktori tersebut. Pertama yang dilakukan menyimpan string sampai bertemu `;`, dibuat direktori dari jenis hewan tersebut jika masih belom ada kemudian di copy gambar ke dalam direktori tersebut. Pada saat ini karena sudah ada path dalam direktori dibuat path untuk buat `keterangan.txt`. Dalam cuplikan kodingan ini variable `temp` menyimpan jenis hewan kemudian dalam `if` berikutnya akan digunakan lagi maka `temp` dilakukan `strcpy()` dengan `empty`, string yang tidak ada isinya, sama saja dengan menghapus isi `temp`. Variable `count2` sebagai penolong juga dikurangi saat bertemu `;`.
 
-### **Jawaban No. 2 (Memasuki keterangan dan rename file(gambar dengan _))**
+### **Jawaban No. 2d,e (Memasuki keterangan dan rename file(gambar dengan _))**
 
 Kodingan lanjutan dari sebelumnya
 ```c
@@ -772,12 +772,16 @@ Kodingan lanjutan dari sebelumnya
 
     closedir(dir);
 }
-		...
+
 ```
 
-### **Penjelasan No. 2 (Memasuki keterangan dan rename file(gambar dengan _))**
+### **Penjelasan No. 2d,e (Memasuki keterangan dan rename file(gambar dengan _))**
 
 Kemudian sama seperti sebelumnya dilooping dan cat char nama hewan ke dalam variable `temp` sampai bertemu `;`. Saat bertemu `;` variable `count2` dikurangi kemudian dimasukin string ke dalam `keterangan.txt`, kemudian membuat path untuk mengubah nama gambar tersebut dan path gambar saat ini, kemudian di rename dengan `argv11` dan `my_system`. Kemudian dicek apabila variable `flag` lebih dari 1, kemudian dilooping dan memasuki umur hewan sampai bertemu `_`. Saat bertemu `_` variable `flag` dikurangi, variable `count2` kembali manjadi 2, memasuki string sesuai permintaan soal dan variable `temp` dikosongi. Karena variable `count2` kembali menjadi 2 maka diulangi proses ini sampai `count2` 0, saat itu dimasukin umur hewan sampai bertemu `.j` kemudian karena gambar sudah masuk dua gambar maka gambar original dihapus.
+
+### **Kendala Soal No.2**
+
+Pada saat mengerjakan soal 2c dan 2d yaitu mengubah nama file tersebut mengalami banyak kendala, saat dirun mengalami segev error, dan karena melakukan debugging banyak bermasalah dihapus semua codingan yang berkaitan dengan 2c dan 2d dan diulang prosesnya, pada akhirnya dapat solusinya.
 
 ### **Source Code Soal No.2**
 
