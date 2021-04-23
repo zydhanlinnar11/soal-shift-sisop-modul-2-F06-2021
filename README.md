@@ -1152,11 +1152,11 @@ Pada fungsi diatas menggunakan `chmod` pada file program `killer.sh` untuk mengu
 
 ### **Jawaban Soal No. 3E**
 
-Pada soal ini kita diminta agar program ini bisa dijalankan dengan 2 mode, yaitu dengan argumen `-x` dan `-z`. Untuk mode pertama program tidak langsung mengehntikan semua proses, tapi menunggu hingga proses selesai. Dan mode yang kedua proses yang berjalan akan dihentikan paksa secara keseluruhan, jadi akan langsung menghentikan prosesnya tanpa menunggu selesai.
+Pada soal ini kita diminta agar program ini bisa dijalankan dengan 2 mode, yaitu dengan argumen `-x` dan `-z`. Untuk mode pertama program tidak langsung menghentikan semua proses, tapi menunggu hingga proses selesai. Dan mode yang kedua proses yang berjalan akan dihentikan paksa secara keseluruhan, jadi akan langsung menghentikan prosesnya tanpa menunggu selesai.
 
 Untuk mode yang pertama dilakukan hanya dengan menghentikan proses `parent`-nya saja, agar proses anaknya dapat diselesaikan. Perintah untuk menghentikan proses parentnya adalah `bash kill <PID Parent>` dan perintah untuk menghapus diri sendiri adalah `rm "$0"`.
 
-Untuk mode kedua dilakukan dengan menghentikan semua proses yang berjalan takpeduli proses nya sudah selesai taau belum. Perintah untuk mengehntikan semua prosesnya adalah `bash killall soal3`. 
+Untuk mode kedua dilakukan dengan menghentikan semua proses yang berjalan tak peduli proses nya sudah selesai atau belum. Perintah untuk menghentikan semua prosesnya adalah `bash killall soal3`. 
 
 Untuk fungsi yang bertugas menjalankan program dalam 2 mode terketak sama dengan fungsi di soal sebelumnya
 ```C
@@ -1370,9 +1370,12 @@ int main(int argc, char **argv){
 
 Berikut merupakan tampilan saat program dijalankan
 
-![Tampilan Runtime](https://user-images.githubusercontent.com/40484843/115485057-2bd6ab80-a27e-11eb-833b-07c3e075d651.PNG)
+![sisop8](https://user-images.githubusercontent.com/40484843/115828328-c2020180-a437-11eb-983b-aa9e9db39b21.PNG)
+
+![sisop9](https://user-images.githubusercontent.com/40484843/115828357-d0501d80-a437-11eb-94d7-d6b7350eb474.PNG)
 
 Bisa dilihat program berjalan sesuai yang diharapkan dan mendownload gambar setiap jeda 5 detik.
+
 **Catatan** : untuk file `folderlog.txt` hanya digunakan untuk melihat jalannya program.
 
 ### **Kendala**
